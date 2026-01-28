@@ -1,3 +1,5 @@
+# quant-finance-probability
+
 ## Project: Algorithmic Trading and Probability
 
 ### General introduction
@@ -14,6 +16,7 @@ Each module provides either a **Monte Carlo simulation** or a **graphical visual
 | `3_measure_and_inequalities/` | Integration (Lebesgue), concentration inequalities, stochastic orders |
 | `4_quantitative_finance/` | Markets, options/Greeks, implied vol, factors, regression on finance data |
 | `5_machine_learning/` | Neural nets (backprop), multivariate calculus utilities for ML |
+| `options_pricing/` | Options: Black–Scholes, binomial tree, Monte Carlo, Heston |
 
 ### Overview of the modules
 
@@ -49,6 +52,12 @@ Each module provides either a **Monte Carlo simulation** or a **graphical visual
 
 - **Backpropagation demo** (`5_machine_learning/backpropagation_nn.py`): small network and option‑payoff toy (from former `back_propagation/Nn`).
 - **Multivariate calculus (Jacobian / Hessian)** (`5_machine_learning/multivariate_calculus_for_macine_learning.py`): numerical derivatives for vector functions (note: file is JavaScript‑style; rename or port to Python if you standardize the repo).
+
+#### `options_pricing/`
+
+- **Fundamentals** (`options_pricing/1_fondamentaux.py`): Black–Scholes analytique, arbre binomial CRR, parité put–call.
+- **Monte Carlo** (`options_pricing/2_monte_carlo_options.py`): options européenne, asiatique, put américain (LSM).
+- **Volatility** (`options_pricing/3_volatilite_implicite_heston.py`): surface de vol implicite, simulation Heston.
 
 ---
 
@@ -280,7 +289,7 @@ pip install numpy matplotlib yfinance scipy scikit-learn
 
 #### Example commands
 
-Run scripts from the **project root** (`Trading Algo project /`) so that paths resolve as below:
+Run scripts from the **project root** (`quant-finance-probability/`) so that paths resolve as below:
 
 ```bash
 # --- 1_probability_fundamentals ---
@@ -309,6 +318,11 @@ python 4_quantitative_finance/optimization_regression_model.py
 
 # --- 5_machine_learning ---
 python 5_machine_learning/backpropagation_nn.py
+
+# --- options_pricing ---
+python options_pricing/1_fondamentaux.py
+python options_pricing/2_monte_carlo_options.py
+python options_pricing/3_volatilite_implicite_heston.py
 ```
 
-All Python modules use the `.py` extension. Only `README.md` sits at the repository root beside the numbered folders.
+All Python modules use the `.py` extension. See per-folder `README.md` files for details.
