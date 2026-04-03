@@ -1,0 +1,65 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# --- Simple Linear Regression Example ---
+# Let's model the relationship between the return of a stock (Y) and the return of the market index (X)
+
+# Simulate some data
+np.random.seed(42)
+n = 100
+market_returns = np.random.normal(0.08, 0.15, n)         # e.g., S&P 500 annualized returns
+stock_returns = 0.5 + 1.2 * market_returns + np.random.normal(0, 0.05, n)  # alpha + beta*X + noise
+
+# Prepare data for sklearn
+X_market = market_returns.reshape(-1, 1)
+model_simple = LinearRegression()
+model_simple.fit(X_market, stock_returns)
+alpha = model_simple.intercept_
+beta = model_simple.coef_[0]
+
+print(f"Simple Linear Regression: Alpha (intercept) = {alpha:.3f}, Beta (slope) = {beta:.3f}")
+
+# Plot
+plt.figure(figsize=(8,5))
+plt.scatter(market_returns, stock_returns, color='blue', alpha=0.5, label='Data')
+plt.plot(market_returns, model_simple.predict(X_market), color='red', label='Fitted Line')
+plt.xlabel('Market Returns')
+plt.ylabel('Stock Returns')
+plt.title('Simple Linear Regression: Stock vs Market')
+plt.legend()
+plt.show()
+
+# --- Multiple Linear Regression Example ---
+# Now model the stock's returns as a function of two features (market, sector)
+
+# Simulate sector returns
+sector_returns = np.random.normal(0.07, 0.09, n)
+stock_returns_ml = 0.3 + 0.9 * market_returns + 0.4 * sector_returns + np.random.normal(0, 0.04, n)
+
+X_multi = np.vstack([market_returns, sector_returns]).T
+model_multi = LinearRegression()
+model_multi.fit(X_multi, stock_returns_ml)
+
+print(f"Multiple Linear Regression:")
+print(f"Intercept (alpha) = {model_multi.intercept_:.3f}")
+print(f"Beta (market) = {model_multi.coef_[0]:.3f}")
+print(f"Beta (sector) = {model_multi.coef_[1]:.3f}")
+
+# 3D visualization (for illustration)
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure(figsize=(8,6))
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(market_returns, sector_returns, stock_returns_ml, c='b', alpha=0.5, label='Data')
+# Regression plane
+xx, yy = np.meshgrid(np.linspace(market_returns.min(), market_returns.max(), 10),
+                     np.linspace(sector_returns.min(), sector_returns.max(), 10))
+zz = (model_multi.intercept_ +
+      model_multi.coef_[0]*xx +
+      model_multi.coef_[1]*yy)
+ax.plot_surface(xx, yy, zz, color='red', alpha=0.4)
+ax.set_xlabel('Market Returns')
+ax.set_ylabel('Sector Returns')
+ax.set_zlabel('Stock Returns')
+ax.set_title('Multiple Linear Regression: Stock vs Market & Sector')
+plt.show()
