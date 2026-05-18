@@ -1,0 +1,87 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# -------------------------
+# Rejection Method for Sampling
+# -------------------------
+# Example: Simulate draws from a truncated normal distribution (as proxy for a risk-neutral density)
+# and use it to estimate the price of a digital option under this density (an application in finance).
+
+def truncated_pdf(x, mu=0, sigma=1, a=-2, b=2):
+    """PDF of standard normal truncated to [a, b]"""
+    from scipy.stats import norm
+    Z = norm.cdf(b, mu, sigma) - norm.cdf(a, mu, sigma)
+    return np.where((x >= a) & (x <= b),
+                   norm.pdf(x, mu, sigma) / Z,
+                   0.0)
+
+def proposal_pdf(x, a=-2, b=2):
+    """PDF of uniform proposal on [a, b]"""
+    return np.where((x >= a) & (x <= b),
+                    1.0 / (b - a),
+                    0.0)
+
+def rejection_sample(target_pdf, proposal_pdf, proposal_sampler, M, size=1):
+    """Rejection sampling algorithm"""
+    samples = []
+    attempts = 0
+    while len(samples) < size:
+        x = proposal_sampler()
+        u = np.random.uniform()
+        # Accept if u <= f(x)/(M g(x))
+        if u < target_pdf(x) / (M * proposal_pdf(x)):
+            samples.append(x)
+        attempts += 1
+    return np.array(samples), attempts
+
+# -------------------------
+# PARAMETERS
+# -------------------------
+
+mu, sigma = 0, 1
+a, b = -2, 2
+sample_size = 10000
+
+# Define target (truncated normal) and proposal (uniform) densities
+target = lambda x: truncated_pdf(x, mu, sigma, a, b)
+proposal = lambda x: proposal_pdf(x, a, b)
+proposal_sampler = lambda: np.random.uniform(a, b)
+
+# To find a valid M: maximum of target/proposal in [a,b]
+from scipy.optimize import minimize_scalar
+minfunc = lambda x: -target(x) / proposal(x)
+result = minimize_scalar(minfunc, bounds=(a, b), method='bounded')
+M = -result.fun
+
+print(f"Using M = {M:.3f} for rejection sampling")
+
+# -------------------------
+# SAMPLE USING REJECTION METHOD
+# -------------------------
+samples, attempts = rejection_sample(target, proposal, proposal_sampler, M, size=sample_size)
+print(f"Generated {sample_size} samples in {attempts} attempts (rejection rate: {100*(1-sample_size/attempts):.2f}%)")
+
+# -------------------------
+# APPLICATION: DIGITAL OPTION PRICING
+# -------------------------
+# Price of a digital option with strike K (pays 1 if S > K, else 0)
+# Under the sampled (risk-neutral proxy) density
+
+K = 0.5  # strike
+payoff = (samples > K).astype(float)
+digital_price = payoff.mean()
+print(f"Estimated price of digital option with strike {K}: {digital_price:.4f}")
+
+# -------------------------
+# Plotting results
+# -------------------------
+
+x = np.linspace(a, b, 500)
+plt.figure(figsize=(8,4))
+plt.hist(samples, bins=50, density=True, alpha=0.6, label="Rejection Samples")
+plt.plot(x, target(x), 'r-', lw=2, label='Target (Trunc Normal) PDF')
+plt.title('Rejection Method Sampling\nand Application: Digital Option Pricing')
+plt.xlabel('x')
+plt.ylabel('Density')
+plt.legend()
+plt.show()
