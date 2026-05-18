@@ -16,8 +16,8 @@ Each module provides either a **Monte Carlo simulation** or a **graphical visual
 | `3_measure_and_inequalities/` | Integration (Lebesgue), concentration inequalities, stochastic orders |
 | `4_quantitative_finance/` | Markets, options/Greeks, implied vol, factors, regression on finance data |
 | `5_machine_learning/` | Neural nets (backprop), multivariate calculus utilities for ML |
-| `options_pricing/` | Options: Black–Scholes, binomial tree, Monte Carlo, Heston |
-| `numerical_analysis/` | Analyse numérique EPFL (Coursera) : Lagrange, quadrature, EDO… |
+| `6_numerical_analysis/` | Analyse numérique EPFL (Coursera) : Lagrange, quadrature, EDO… |
+| `7_options_pricing/` | Options: Black–Scholes, binomial tree, Monte Carlo, Heston |
 
 ### Overview of the modules
 
@@ -54,15 +54,15 @@ Each module provides either a **Monte Carlo simulation** or a **graphical visual
 - **Backpropagation demo** (`5_machine_learning/backpropagation_nn.py`): small network and option‑payoff toy (from former `back_propagation/Nn`).
 - **Multivariate calculus (Jacobian / Hessian)** (`5_machine_learning/multivariate_calculus_for_macine_learning.py`): numerical derivatives for vector functions (note: file is JavaScript‑style; rename or port to Python if you standardize the repo).
 
-#### `options_pricing/`
+#### `6_numerical_analysis/`
 
-- **Fundamentals** (`options_pricing/1_fondamentaux.py`): Black–Scholes analytique, arbre binomial CRR, parité put–call.
-- **Monte Carlo** (`options_pricing/2_monte_carlo_options.py`): options européenne, asiatique, put américain (LSM).
-- **Volatility** (`options_pricing/3_volatilite_implicite_heston.py`): surface de vol implicite, simulation Heston.
+- **Lagrange interpolation** (`6_numerical_analysis/01_lagrange_interpolation.py`): base de Lagrange, polynôme interpolateur, visualisation de l’erreur (MOOC EPFL).
 
-#### `numerical_analysis/`
+#### `7_options_pricing/`
 
-- **Lagrange interpolation** (`numerical_analysis/01_lagrange_interpolation.py`): base de Lagrange, polynôme interpolateur, visualisation de l’erreur (MOOC EPFL).
+- **Fundamentals** (`7_options_pricing/1_fondamentaux.py`): Black–Scholes analytique, arbre binomial CRR, parité put–call.
+- **Monte Carlo** (`7_options_pricing/2_monte_carlo_options.py`): options européenne, asiatique, put américain (LSM).
+- **Volatility** (`7_options_pricing/3_volatilite_implicite_heston.py`): surface de vol implicite, simulation Heston.
 
 ---
 
@@ -324,13 +324,13 @@ python 4_quantitative_finance/optimization_regression_model.py
 # --- 5_machine_learning ---
 python 5_machine_learning/backpropagation_nn.py
 
-# --- options_pricing ---
-python options_pricing/1_fondamentaux.py
-python options_pricing/2_monte_carlo_options.py
-python options_pricing/3_volatilite_implicite_heston.py
+# --- 6_numerical_analysis (EPFL Coursera) ---
+python 6_numerical_analysis/01_lagrange_interpolation.py
 
-# --- numerical_analysis (EPFL Coursera) ---
-python numerical_analysis/01_lagrange_interpolation.py
+# --- 7_options_pricing ---
+python 7_options_pricing/1_fondamentaux.py
+python 7_options_pricing/2_monte_carlo_options.py
+python 7_options_pricing/3_volatilite_implicite_heston.py
 ```
 
 All Python modules use the `.py` extension. See per-folder `README.md` files for details.

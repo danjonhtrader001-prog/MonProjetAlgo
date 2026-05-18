@@ -1,4 +1,6 @@
-# Analyse numérique pour ingénieurs (EPFL / Coursera)
+# 6 — Analyse numérique pour ingénieurs (EPFL / Coursera)
+
+**Module 6** du projet `quant-finance-probability`.
 
 Implémentations Python inspirées du MOOC [**Analyse numérique pour ingénieurs**](https://www.coursera.org/learn/analyse-numerique) (EPFL, Rappaz & Picasso).
 
@@ -21,9 +23,21 @@ Chaque script est autonome, exécutable et accompagné de visualisations lorsque
 
 ```bash
 pip install numpy matplotlib
-python numerical_analysis/01_lagrange_interpolation.py
+python 6_numerical_analysis/01_lagrange_interpolation.py
 ```
 
 ## Lien avec la finance quantitative
 
-L’interpolation apparaît en calibration de courbes (taux, volatilité), en lissage de données de marché et en approximation de fonctions de payoff pour le pricing numérique.
+L’interpolation apparaît en calibration de courbes (taux, volatilité), en lissage de données de marché et en approximation de fonctions de payoff pour le pricing numérique (suite logique du module 7).
+
+## Parcours du projet
+
+| # | Dossier |
+|---|---------|
+| 1 | `1_probability_fundamentals/` |
+| 2 | `2_distributions_and_limits/` |
+| 3 | `3_measure_and_inequalities/` |
+| 4 | `4_quantitative_finance/` |
+| 5 | `5_machine_learning/` |
+| 6 | `6_numerical_analysis/` *(ce module)* |
+| 7 | `7_options_pricing/` |
